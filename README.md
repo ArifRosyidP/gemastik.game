@@ -1,0 +1,2 @@
+# gemastik.game
+lomba game
