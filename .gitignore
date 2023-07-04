@@ -9,6 +9,9 @@
 [Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+Logs/
+.vscode
+
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -61,6 +64,7 @@ sysinfo.txt
 *.unitypackage
 *.app
 
+
 # Crashlytics generated file
 crashlytics-build.properties
 
@@ -70,3 +74,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Game Gemastik/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
+Game Gemastik/Logs/
+
