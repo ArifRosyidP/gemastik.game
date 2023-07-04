@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundDistance = 0.8f;
     [SerializeField] private LayerMask groundMask;
-    public bool isGrounded;
+    public bool isGrounded,tugas;
+    private GameObject misi;
     Vector3 velocity;
 
     NavMeshAgent agent;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        misi = GameObject.FindWithTag("Misi");
         
 
     }
@@ -41,17 +43,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        Pergerakan();
+        tugas = misi.GetComponent<Interaksi>().tugas;
+
+        if (tugas == false)
+        {
+            Pergerakan();
+            ClickToMove();
+            Lompat();
+        }
         Lari(); 
         Gravity();
-        Lompat();
-        ClickToMove();
+        
+        
     }
 
     void ClickToMove()
     {
-        if (Input.GetMouseButtonDown(0))
+        
+        if (Input.GetMouseButtonDown(0) && tugas == false)
         {
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, clickableLayers))
@@ -66,6 +75,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        
 
         if (agent.velocity != Vector3.zero)
         {

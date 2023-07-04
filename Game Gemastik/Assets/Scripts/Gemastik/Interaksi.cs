@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Interaksi : MonoBehaviour
 {
     public GameObject camera, view1, view2, task;
     [SerializeField] bool isInteractable;
+    public bool tugas;
     // Start is called before the first frame update
     void Start()
     {
         camera.GetComponent<CameraFollow1>().enabled = true;
         camera.GetComponent<CameraFollow2>().enabled = false;
+        tugas= false;
     }
 
     private void Update()
@@ -30,6 +33,8 @@ public class Interaksi : MonoBehaviour
                 camera.GetComponent<CameraFollow1>().enabled = false;
                 camera.GetComponent<CameraFollow2>().enabled = true;
                 task.SetActive(true);
+                tugas= true;
+
             }
             
         }
@@ -42,6 +47,7 @@ public class Interaksi : MonoBehaviour
             camera.GetComponent<CameraFollow1>().enabled = true;
             camera.GetComponent<CameraFollow2>().enabled = false;
             task.SetActive(false);
+            tugas= false;
         }
 
     }
