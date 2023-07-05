@@ -13,13 +13,16 @@ public class PlayerController : MonoBehaviour
     private float walkSpeed = 2f;
     private float runSpeed = 6f;
 
-    [SerializeField] private float speed_jump = 2f;
+    [SerializeField] private float speed_jump = 5f;
     [SerializeField] private float gravitasi = -9.81f;
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundDistance = 0.8f;
+    [SerializeField] private float groundDistance = 0.2f;
     [SerializeField] private LayerMask groundMask;
-    public bool isGrounded;
+    [SerializeField] bool isGrounded;
     Vector3 velocity;
+
+    private GameObject interaksi;
+    public bool pause;
 
     NavMeshAgent agent;
     [Header("Movement")]
@@ -34,32 +37,39 @@ public class PlayerController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        pause = GetComponent<Interaksi>().pause;
         
-        Pergerakan();
-        Lari(); 
+        if (pause == false)
+        {
+            
+            Pergerakan();
+            Lari();
+            Lompat();
+            ClickToMove();
+        }
+         
         Gravity();
-        Lompat();
-        ClickToMove();
+
     }
 
     void ClickToMove()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, clickableLayers))
             {
                 agent.enabled = true;
                 controller.enabled = false;
-                agent.destination = hit.point;
                 FaceTarget();
+                agent.destination = hit.point;
                 if (clickEffect != null)
                 {
                     Instantiate(clickEffect, hit.point += new Vector3(0, 0.1f, 0), clickEffect.transform.rotation);
@@ -70,7 +80,11 @@ public class PlayerController : MonoBehaviour
         if (agent.velocity != Vector3.zero)
         {
             animator.SetFloat("Speed", 0.3f);
-            animator.SetBool("Running", true);
+            //animator.SetBool("Running", true);
+        }
+        else
+        {
+            
         }
     }
 
@@ -92,9 +106,9 @@ public class PlayerController : MonoBehaviour
 
         if (dir.magnitude >= 0.1f)
         {
-            
             controller.enabled = true;
             agent.enabled = false;
+
             transform.rotation= Quaternion.LookRotation(dir);
 
             controller.Move(velocity);
@@ -142,12 +156,5 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Grounded", isGrounded);
     }
 
-   /* private void OnTriggerStay(Collider other)
-    {
-        if (other.name == "Bonus Beruang")
-        {
-            controller.enabled = true;
-        }
-
-    }*/
+    
 }

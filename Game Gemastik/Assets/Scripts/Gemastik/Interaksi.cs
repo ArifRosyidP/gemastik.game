@@ -5,7 +5,7 @@ using UnityEngine;
 public class Interaksi : MonoBehaviour
 {
     public GameObject camera, view1, view2, task;
-    [SerializeField] bool isInteractable;
+    public bool isInteractable, pause;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +30,7 @@ public class Interaksi : MonoBehaviour
                 camera.GetComponent<CameraFollow1>().enabled = false;
                 camera.GetComponent<CameraFollow2>().enabled = true;
                 task.SetActive(true);
+                pause = true;
             }
             
         }
@@ -42,25 +43,26 @@ public class Interaksi : MonoBehaviour
             camera.GetComponent<CameraFollow1>().enabled = true;
             camera.GetComponent<CameraFollow2>().enabled = false;
             task.SetActive(false);
+            pause = false;
         }
 
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider collider)
     {
-        if (other.tag == "Player")
+        Debug.Log("Test");
+        if (collider.gameObject.tag == "Interaksi")
         {
-            Debug.Log("bonus ditemukan");
             isInteractable = true;
-            //anim.SetBool("open", true);
         }
-
     }
 
-    private void OnTriggerExit()
+    private void OnTriggerExit(Collider collider)
     {
-        isInteractable = false;
-
+        if (collider.gameObject.tag == "Interaksi")
+        {
+            isInteractable = false;
+        }
     }
 
 }
