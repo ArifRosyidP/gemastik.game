@@ -21,12 +21,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isGrounded;
     Vector3 velocity;
 
-    private GameObject interaksi;
+    
     public bool pause;
 
     NavMeshAgent agent;
-    [Header("Movement")]
     [SerializeField] ParticleSystem clickEffect;
+    public GameObject Partikel;
     [SerializeField] LayerMask clickableLayers;
 
     float lockRotationSpeed = 8f; 
@@ -72,7 +72,8 @@ public class PlayerController : MonoBehaviour
                 agent.destination = hit.point;
                 if (clickEffect != null)
                 {
-                    Instantiate(clickEffect, hit.point += new Vector3(0, 0.1f, 0), clickEffect.transform.rotation);
+                    ParticleSystem effek =  Instantiate(clickEffect, hit.point, hit.transform.rotation);
+                    effek.transform.SetParent(Partikel.transform);
                 }
             }
         }
